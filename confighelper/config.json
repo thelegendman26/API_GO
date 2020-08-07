@@ -1,0 +1,5 @@
+{
+    "Port": 8000,
+    "Static_Variable": "static",
+    "Connection_String":"mongodb://baac.topwork.asia:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+}
