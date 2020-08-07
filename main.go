@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/JACK/helper"
-	"github.com/JACK/models"
+	"github.com/API_GO/helper"
+	"github.com/API_GO/models"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -122,6 +122,7 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(book)
 	// insert our book model.
+	log.Println("book.Title", book.Title)
 	result, err := collection.InsertOne(context.TODO(), book)
 	fmt.Println(result)
 	if err != nil {
@@ -147,27 +148,33 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	filter := bson.M{"username": user.Username}
 	println("filter")
 	println(filter)
-	exuser := collection.FindOne(context.TODO(), user.Username)
+	//exuser := collection.FindOne(context.TODO(), user.Username)
+	exuser := collection.FindOne(context.TODO(), filter).Decode(&user)
+	//if not found
+	if exuser != nil {
 
-	log.Println("exuser", exuser)
-	log.Println("exuser", exuser)
-	fmt.Println("step2!")
+		//log.Println("exuser", exuser)
+		//log.Println("exuser", exuser)
+		fmt.Println("step2!")
 
-	fmt.Println(user)
-	fmt.Println(user.Username)
-	fmt.Println(user.Name)
-	fmt.Println(user.Password)
-	// insert our book model.
+		fmt.Println(user)
+		fmt.Println(user.Userno)
+		//fmt.Println(user.Name)
+		//fmt.Println(user.Password)
+		// insert our user model.
 
-	result, err := collection.InsertOne(context.TODO(), user)
-	fmt.Println(result)
-	if err != nil {
-		helper.GetError(err, w)
-		fmt.Println("step3")
+		result, err := collection.InsertOne(context.TODO(), user)
+		fmt.Println(result)
+		if err != nil {
+			helper.GetError(err, w)
+			fmt.Println("step3: Don't can Insert")
+			return
+		}
+		json.NewEncoder(w).Encode(result)
 		return
 	}
-
-	json.NewEncoder(w).Encode(result)
+	//json.NewEncoder(w).Encode(result)
+	fmt.Println("Username is exist!")
 }
 func updateBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
