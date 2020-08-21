@@ -146,6 +146,10 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	collection := helper.ConnectDB()
 
 	log.Println("user.Username", user.Username)
+	log.Println("user.Name", user.Name)
+	log.Println("user.Role", user.Role)
+	log.Println("user.Roledesc", user.Roledesc)
+
 	filter := bson.M{"username": user.Username}
 	println("filter")
 	println(filter)
