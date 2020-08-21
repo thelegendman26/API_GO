@@ -16,9 +16,8 @@ import (
 func ConnectDB() *mongo.Collection {
 
 	// Set client options
-	//clientOptions := options.Client().ApplyURI("mongodb://baac.topwork.asia:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false")
-	//clientOptions := options.Client().ApplyURI("mongodb://127.0.0.1/:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false")
 	clientOptions := options.Client().ApplyURI("mongodb://baac.topwork.asia:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false")
+	//clientOptions := options.Client().ApplyURI("mongodb://127.0.0.1/:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false")
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(context.TODO(), clientOptions)
