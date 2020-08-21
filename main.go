@@ -12,7 +12,18 @@ import (
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
 
 func getBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -153,6 +164,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	filter := bson.M{"username": user.Username}
 	println("filter")
 	println(filter)
+	user.Password, _ = HashPassword(user.Password)
 	//exuser := collection.FindOne(context.TODO(), user.Username)
 	exuser := collection.FindOne(context.TODO(), filter).Decode(&user)
 	//if not found
@@ -163,7 +175,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("step2!")
 
 		fmt.Println(user)
-		fmt.Println(user.Userno)
+		//fmt.Println(user.Userno)
 		//fmt.Println(user.Name)
 		//fmt.Println(user.Password)
 		// insert our user model.
