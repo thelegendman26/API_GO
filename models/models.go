@@ -18,7 +18,7 @@ type Author struct {
 
 type User struct {
 	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	User_id  int32              `json:"user_id" bson:"userno,omitempty"`
+	User_id  int32              `json:"user_id" bson:"user_id,omitempty"`
 	Username string             `json:"username" bson:"username,omitempty"`
 	Name     string             `json:"name" bson:"name,omitempty"`
 	Password string             `json:"password" bson:"password,omitempty"`
