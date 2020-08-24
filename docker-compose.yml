@@ -5,6 +5,6 @@ services:
     container_name: API_GO
     image: API_GO:0.0.1
     ports:
-      - 3002:3002
+      - 3003:3003
     environment:
       - TZ=Asia/Bangko
